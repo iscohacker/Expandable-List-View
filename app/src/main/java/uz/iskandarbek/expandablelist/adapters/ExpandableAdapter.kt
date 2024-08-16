@@ -9,7 +9,7 @@ import uz.iskandarbek.expandablelist.databinding.GroupItemBinding
 
 class ExpandableAdapter(
     var titleList: ArrayList<String>,
-    var map: HashMap<String, ArrayList<String>>
+    var map: HashMap<String, ArrayList<String>>,var expandAction: ExpandAction
 ) : BaseExpandableListAdapter() {
     override fun getGroupCount(): Int {
         return titleList.size
@@ -68,6 +68,9 @@ class ExpandableAdapter(
     ): View {
         val childItemBinding = ChildItemBinding.inflate(LayoutInflater.from(p4?.context), p4, false)
         childItemBinding.childName.text = map[titleList[groupPosition]]?.get(childPosition)
+        childItemBinding.root.setOnClickListener {
+            expandAction.childClick(map[titleList[groupPosition]]?.get(childPosition)!!)
+        }
         return childItemBinding.root
     }
 
@@ -79,5 +82,8 @@ class ExpandableAdapter(
 //        bolalar elementlari tanlanmaydi va ularga hech qanday interaktivlik qo'llanilmaydi.
 //
         return true
+    }
+    interface ExpandAction {
+        fun childClick(name: String)
     }
 }

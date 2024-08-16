@@ -1,6 +1,7 @@
 package uz.iskandarbek.expandablelist
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -8,7 +9,7 @@ import androidx.core.view.WindowInsetsCompat
 import uz.iskandarbek.expandablelist.adapters.ExpandableAdapter
 import uz.iskandarbek.expandablelist.databinding.ActivityMainBinding
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), ExpandableAdapter.ExpandAction {
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
     lateinit var titleList: ArrayList<String>
     lateinit var map: HashMap<String, ArrayList<String>>
@@ -18,7 +19,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         loadData()
-        expandableAdapter = ExpandableAdapter(titleList, map)
+        expandableAdapter = ExpandableAdapter(titleList, map,this)
         binding.expandble.setAdapter(this.expandableAdapter)
 
     }
@@ -34,6 +35,10 @@ class MainActivity : AppCompatActivity() {
         map[titleList[0]] = isco1
         map[titleList[1]] = isco2
         map[titleList[2]] = isco3
+    }
+
+    override fun childClick(name: String) {
+        Toast.makeText(this, "Child bosildi", Toast.LENGTH_SHORT).show()
     }
 
 }
